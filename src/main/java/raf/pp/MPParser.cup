@@ -1,0 +1,126 @@
+//import section
+
+import java_cup.runtime.*;
+import java.io.*;
+
+parser code {:
+public int errNo = 0;
+:};
+
+terminal MAIN, INT, REAL, CHAR, BOOL, READ, WRITE, IF, THEN, WHILE, FOR, DO, STRUCT,
+ID, CONST, PLUS, MINUS, MUL, LP, RP, ASSIGN, SEMICOLON, COMMA, LCB, RCB, MT, LT,
+MTO, LTO, EQUALS, DIFF, POW, OR, AND, DIV, DOTDOT;
+
+non terminal Program, Block, VarList, StatementList, VarDecl, NameList, Type, Structure, Statement, IfStatement, Loop,
+Expression, AndExpression, ArExpression, RelExpression, RelOp, Term, Factor, ExpressionList;
+
+Program ::= MAIN LP RP Block
+          | MAIN LP error:e Block
+            {:
+               System.out.println( "Nedostaje zatvorena zagrada u MAIN");
+               parser.errNo++;
+            :}
+          | MAIN error:e RP Block
+            {:
+            	System.out.println("Nedostaje otvorena zagrada u MAIN");
+                parser.errNo++;
+            :}
+          | error:e LP RP Block
+            {:
+            	System.out.println("Nedostaje MAIN na pocetku");
+            	parser.errNo++;
+            :} ;
+
+Block ::= LCB VarList StatementList RCB
+         // | LCB VarList StatementList error:e
+         //  {:
+          //   	System.out.println("Niste zatvorenili MAIN metodu");
+          //  	parser.errNo++;
+          // :} pravi konflikt iz nekog razloga tokom generisanje parsera
+          | error:e VarList StatementList RCB
+           {:
+                System.out.println("Niste otvorili MAIN metodu");
+                parser.errNo++;
+           :}
+           ;
+
+VarList ::= VarList VarDecl | VarDecl;
+
+
+VarDecl ::= NameList DOTDOT Type SEMICOLON
+          | NameList DOTDOT Type error:e
+           {:
+             	System.out.println("Niste stavili ; na kraju deklaracije promenjive");
+            	parser.errNo++;
+           :}
+          | NameList error:e Type SEMICOLON
+           {:
+                System.out.println("Niste iskoristili adekvatan simbol dodele");
+                parser.errNo++;
+           :}
+           ;
+
+NameList ::= NameList COMMA ID | ID
+          | NameList error:e ID
+           {:
+             	System.out.println("Niste lepo odvojiti imena promenjivih");
+            	parser.errNo++;
+           :}
+           ;
+
+Type ::= INT | CHAR | BOOL | REAL | Structure;
+
+
+Structure ::= STRUCT ID LCB VarDecl RCB
+          | STRUCT ID LCB VarDecl error:e
+           {:
+             	System.out.println("Niste zatovorili strukturu");
+            	parser.errNo++;
+           :}
+           | STRUCT ID error:e VarDecl RCB
+           {:
+                System.out.println("Niste otvorili strukturu");
+                parser.errNo++;
+           :}
+           ;
+
+StatementList ::= StatementList Statement | Statement;
+
+Statement ::= Loop | IfStatement | ID ASSIGN Expression SEMICOLON | READ LP NameList RP SEMICOLON | WRITE LP ExpressionList RP SEMICOLON | Block;
+
+IfStatement ::= IF LP Expression RP THEN Statement
+           | IF LP Expression RP error:e Statement
+           {:
+                System.out.println("Niste stavili THEN kljucnu rec");
+                parser.errNo++;
+           :}
+           ;
+
+Loop ::= WHILE LP Expression RP THEN Statement | FOR LP Expression RP DO Statement
+           | WHILE LP Expression RP error:e Statement
+           {:
+                System.out.println("Niste stavili THEN kljucnu rec");
+                parser.errNo++;
+           :}
+           | FOR LP Expression RP error:e Statement
+           {:
+                System.out.println("Niste stavili DO kljucnu rec");
+                parser.errNo++;
+           :}
+           ;
+
+Expression ::= Expression OR AndExpression | AndExpression;
+
+AndExpression ::= AndExpression AND RelExpression | RelExpression;
+
+ArExpression ::= ArExpression PLUS Term | ArExpression MINUS Term | Term;
+
+RelExpression ::= ArExpression RelOp ArExpression | ArExpression;
+
+RelOp ::= LT | MT | LTO | MTO | EQUALS | DIFF;
+
+Term ::= Term MUL Factor | Term DIV Factor | Term POW Factor | Factor;
+
+Factor ::= ID | CONST | LP Expression RP;
+
+ExpressionList ::= ExpressionList COMMA Expression | Expression;

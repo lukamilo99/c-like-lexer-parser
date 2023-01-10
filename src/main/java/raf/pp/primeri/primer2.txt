@@ -1,0 +1,10 @@
+main() {
+
+a,b,c:int;
+a=2;
+b=a^5;
+
+while(b > 1) then a = a - 1;
+
+write(a);
+}

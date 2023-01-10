@@ -1,0 +1,10 @@
+main() {
+
+a,b,c:int;
+a=1;
+b=a+1;
+
+write(a);
+write(b);
+
+}
