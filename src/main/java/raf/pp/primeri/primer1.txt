@@ -1,10 +1,10 @@
 main() {
 
-a,b,c:int;
-a=1;
-b=a+1;
+a:real;
+b:int;
+a=0.1;
+b=2;
 
 write(a);
 write(b);
-
 }

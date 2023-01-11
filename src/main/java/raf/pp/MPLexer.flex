@@ -89,8 +89,8 @@ hex = [0-9A-F]
 {digit}+ { return new Symbol(sym.CONST); }
 \#{hex}+ { return new Symbol(sym.CONST); }
 0\.{digit}+(E[+\-]{digit}+)? { return new Symbol(sym.CONST); }
-\'{letter}\' { return new Symbol(sym.CONST); }
-'[^]' { return new Symbol(sym.CONST); }
+\'{letter}*\' { return new Symbol(sym.CONST); }
+\'[^]\' { return new Symbol(sym.CONST); }
 
 . { System.out.println( "ERROR: " + yytext() ); }
 

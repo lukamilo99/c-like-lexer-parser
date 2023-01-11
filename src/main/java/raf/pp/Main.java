@@ -10,7 +10,7 @@ public class Main {
             FileReader file = new FileReader(args[0]);
             Scanner scanner = new MPLexer(file);
             MPParser parser = new MPParser(scanner);
-            parser.debug_parse();
+            parser.parse();
             if (parser.errNo == 0)
                 System.out.println("Analiza zavrsena. U kodu nema gresaka.");
             else
@@ -18,7 +18,7 @@ public class Main {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+
         }
     }
 }

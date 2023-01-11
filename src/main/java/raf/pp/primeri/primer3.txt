@@ -1,11 +1,11 @@
-main( {
+main() {
 
 a:char;
 b:int;
 a='luka';
 b=5;
 
-if(b != 5) then a = 'nije vise luka';
+if(b != 5) a='pera';
 
 write(a);
 }

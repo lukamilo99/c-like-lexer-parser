@@ -1,0 +1,10 @@
+main( {
+
+var,a:int;
+var = 2^5;
+
+for (var > 1) then write(var);
+if (var == 1) then a = 5;
+
+read(a);
+}

@@ -17,17 +17,17 @@ Expression, AndExpression, ArExpression, RelExpression, RelOp, Term, Factor, Exp
 Program ::= MAIN LP RP Block
           | MAIN LP error:e Block
             {:
-               System.out.println( "Nedostaje zatvorena zagrada u MAIN");
+               System.out.println( "Nedostaje zatvorena zagrada u MAIN" + " - linija " + parser.getLine());
                parser.errNo++;
             :}
           | MAIN error:e RP Block
             {:
-            	System.out.println("Nedostaje otvorena zagrada u MAIN");
+            	System.out.println("Nedostaje otvorena zagrada u MAIN" + " - linija " + parser.getLine());
                 parser.errNo++;
             :}
           | error:e LP RP Block
             {:
-            	System.out.println("Nedostaje MAIN na pocetku");
+            	System.out.println("Nedostaje MAIN na pocetku" + " - linija " + parser.getLine());
             	parser.errNo++;
             :} ;
 
@@ -39,7 +39,7 @@ Block ::= LCB VarList StatementList RCB
           // :} pravi konflikt iz nekog razloga tokom generisanje parsera
           | error:e VarList StatementList RCB
            {:
-                System.out.println("Niste otvorili MAIN metodu");
+                System.out.println("Niste otvorili MAIN metodu" + " - linija " + parser.getLine());
                 parser.errNo++;
            :}
            ;
@@ -50,12 +50,12 @@ VarList ::= VarList VarDecl | VarDecl;
 VarDecl ::= NameList DOTDOT Type SEMICOLON
           | NameList DOTDOT Type error:e
            {:
-             	System.out.println("Niste stavili ; na kraju deklaracije promenjive");
+             	System.out.println("Niste stavili ; na kraju deklaracije promenjive" + " - linija " + parser.getLine());
             	parser.errNo++;
            :}
           | NameList error:e Type SEMICOLON
            {:
-                System.out.println("Niste iskoristili adekvatan simbol dodele");
+                System.out.println("Niste iskoristili adekvatan simbol dodele" + " - linija " + parser.getLine());
                 parser.errNo++;
            :}
            ;
@@ -63,7 +63,7 @@ VarDecl ::= NameList DOTDOT Type SEMICOLON
 NameList ::= NameList COMMA ID | ID
           | NameList error:e ID
            {:
-             	System.out.println("Niste lepo odvojiti imena promenjivih");
+             	System.out.println("Niste lepo odvojiti imena promenjivih" + " - linija " + parser.getLine());
             	parser.errNo++;
            :}
            ;
@@ -74,12 +74,12 @@ Type ::= INT | CHAR | BOOL | REAL | Structure;
 Structure ::= STRUCT ID LCB VarDecl RCB
           | STRUCT ID LCB VarDecl error:e
            {:
-             	System.out.println("Niste zatovorili strukturu");
+             	System.out.println("Niste zatovorili strukturu" + " - linija " + parser.getLine());
             	parser.errNo++;
            :}
            | STRUCT ID error:e VarDecl RCB
            {:
-                System.out.println("Niste otvorili strukturu");
+                System.out.println("Niste otvorili strukturu" + " - linija " + parser.getLine());
                 parser.errNo++;
            :}
            ;
@@ -91,7 +91,7 @@ Statement ::= Loop | IfStatement | ID ASSIGN Expression SEMICOLON | READ LP Name
 IfStatement ::= IF LP Expression RP THEN Statement
            | IF LP Expression RP error:e Statement
            {:
-                System.out.println("Niste stavili THEN kljucnu rec");
+                System.out.println("Niste stavili THEN kljucnu rec" + " - linija " + parser.getLine());
                 parser.errNo++;
            :}
            ;
@@ -99,12 +99,12 @@ IfStatement ::= IF LP Expression RP THEN Statement
 Loop ::= WHILE LP Expression RP THEN Statement | FOR LP Expression RP DO Statement
            | WHILE LP Expression RP error:e Statement
            {:
-                System.out.println("Niste stavili THEN kljucnu rec");
+                System.out.println("Niste stavili THEN kljucnu rec" + " - linija " + parser.getLine());
                 parser.errNo++;
            :}
            | FOR LP Expression RP error:e Statement
            {:
-                System.out.println("Niste stavili DO kljucnu rec");
+                System.out.println("Niste stavili DO kljucnu rec" + " - linija " + parser.getLine());
                 parser.errNo++;
            :}
            ;

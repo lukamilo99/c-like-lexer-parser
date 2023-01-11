@@ -1,0 +1,12 @@
+main() {
+// komentar
+
+flag:bool;
+b:int;
+flag=true;
+b=5;
+
+while(flag) then b = b - 1;
+
+write(a);
+}
