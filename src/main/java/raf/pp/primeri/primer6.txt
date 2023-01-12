@@ -1,0 +1,15 @@
+main() {
+
+struktura:struct {
+    a:char;
+    b:int;
+    a = 'luka';
+    b = 1;
+};
+
+var:int;
+var = 1;
+
+write(var);
+read(var);
+}

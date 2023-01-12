@@ -12,7 +12,7 @@ ID, CONST, PLUS, MINUS, MUL, LP, RP, ASSIGN, SEMICOLON, COMMA, LCB, RCB, MT, LT,
 MTO, LTO, EQUALS, DIFF, POW, OR, AND, DIV, DOTDOT;
 
 non terminal Program, Block, VarList, StatementList, VarDecl, NameList, Type, Structure, Statement, IfStatement, Loop,
-Expression, AndExpression, ArExpression, RelExpression, RelOp, Term, Factor, ExpressionList;
+Expression, AndExpression, ArExpression, RelExpression, RelOp, Term, Factor, ExpressionList, StructureStatementList, StructureStatement;
 
 Program ::= MAIN LP RP Block
           | MAIN LP error:e Block
@@ -71,18 +71,20 @@ NameList ::= NameList COMMA ID | ID
 Type ::= INT | CHAR | BOOL | REAL | Structure;
 
 
-Structure ::= STRUCT ID LCB VarDecl RCB
-          | STRUCT ID LCB VarDecl error:e
+Structure ::= STRUCT LCB VarList StructureStatementList RCB
+          | STRUCT ID LCB VarList StructureStatementList error:e
            {:
-             	System.out.println("Niste zatovorili strukturu" + " - linija " + parser.getLine());
+             	System.out.println("Niste zatvorili strukturu" + " - linija " + parser.getLine());
             	parser.errNo++;
            :}
-           | STRUCT ID error:e VarDecl RCB
+           | STRUCT ID error:e VarList StructureStatementList RCB
            {:
                 System.out.println("Niste otvorili strukturu" + " - linija " + parser.getLine());
                 parser.errNo++;
            :}
            ;
+StructureStatementList ::= StructureStatementList StructureStatement | StructureStatement;
+StructureStatement ::= ID ASSIGN Expression SEMICOLON;
 
 StatementList ::= StatementList Statement | Statement;
 
