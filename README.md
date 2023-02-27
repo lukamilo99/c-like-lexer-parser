@@ -16,7 +16,7 @@ Loop -> WHILE ( Expression ) THEN Statement <br/>
 Expression -> Expression || AndExpression | AndExpression <br/>
 AndExpression -> AndExpression && RelExpression | RelExpresion <br/>
 ArExpression -> ArExpression + Term | ArExpression - Term | Term <br/>
-RelExpression -> ArExpression RelOp ArExpresion | ArExpresion
+RelExpression -> ArExpression RelOp ArExpresion | ArExpresion <br/>
 RelOp -> < | > | == | != | <= | >= <br/>
 Term -> Term * Factor | Term / Factor | Term ^ Factor | Factor <br/>
 Factor -> ID | CONST | (Expression) <br/>
