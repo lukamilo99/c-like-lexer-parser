@@ -1,5 +1,5 @@
 ## Grammar
-
+```
 Program -> MAIN() Block <br/>
 Block -> { VarList StatementList } <br/>
 VarList -> VarList VarDecl | VarDecl <br/>
@@ -21,3 +21,4 @@ RelOp -> < | > | == | != | <= | >= <br/>
 Term -> Term * Factor | Term / Factor | Term ^ Factor | Factor <br/>
 Factor -> ID | CONST | (Expression) <br/>
 ExpressionList -> ExpressionList, Expression | Expression <br/>
+```
